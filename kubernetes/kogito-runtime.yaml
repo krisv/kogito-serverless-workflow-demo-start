@@ -1,0 +1,21 @@
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoInfra
+metadata:
+  name: kogito-knative-infra
+spec:
+  # bind Knative Broker with our own service
+  resource:
+    apiVersion: eventing.knative.dev/v1
+    kind: Broker
+    name: example-broker
+---
+apiVersion: app.kiegroup.org/v1beta1
+kind: KogitoRuntime
+metadata:
+  name: playtowin
+spec:
+  replicas: 1
+  image: quay.io/krisv/kogito-serverless-workflow-demo:1.0-SNAPSHOT
+  # we bind our application with Knative env
+  infra:
+    - kogito-knative-infra
