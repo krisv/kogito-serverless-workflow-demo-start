@@ -34,18 +34,20 @@
         <p></p>
         <form>
             <label>Type:  </label><input type="text" name="type"><br/>
-            <label>Key :  </label><input type="text" name="key"><br/>
             <label>Data:  </label><input type="text" name="data"><br/>
+            <input type="checkbox" name="audit">Show Audit?</input><br/>
             <button type="button" onclick="sendEvent()">Send</button>
         </form>
         <br/>
-        <h1>Audit</h1>
-        <form>
-            <label>Key:  </label><input type="text" name="key2"><br/>
-            <button type="button" onclick="find()">Find</button>
-        </form>
-        <br/>
-        <p id="result" style="font-size:100%;"></p>
+        <div id="div" style="display: none";>
+            <h1>Audit</h1>
+            <form>
+                <label>Key:  </label><input type="text" name="key2"><br/>
+                <button type="button" onclick="find()">Find</button>
+            </form>
+            <br/>
+            <p id="result" style="font-size:100%;"></p>
+        </div> 
     </div>  
 </div>
 </body>

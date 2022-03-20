@@ -1,4 +1,5 @@
 function sendEvent() {
+	var key = Math.floor((Math.random() * 100000));
 	jQuery.ajax ({
 	    url: "/",
 	    type: "POST",
@@ -8,10 +9,21 @@ function sendEvent() {
 			"ce-specversion": "1.0",
 			"ce-source": "/from/sw-service",
 			"ce-type": $('input[name = type]').val(),
-			"ce-kogitobusinesskey": $('input[name = key]').val(),
+			"ce-kogitobusinesskey": key,
 			"ce-id": "xyzabcdefgh"
 		},
 		success: function(result) {
+			if ($('input[name = audit]').is(':checked')) {
+				$("#div").show();
+				$('input[name = key2]').val(key);
+				setTimeout(
+					function() 
+					{
+						find();
+					}, 2000);
+			} else {
+				$("#div").hide();
+			}
 		},
 		error: function (jqXHR, exception) {
 			var msg = '';
@@ -43,15 +55,23 @@ function find() {
 		},
 		success: function(result) {
 			var pInstance = result.data.ProcessInstances[0];
-			$('#result').text("Workflow " + pInstance.processName + " (id=" + pInstance.id + ")");
-			$('#result').append(" <BR/>");
-			$('#result').append("Status " + pInstance.state + " <BR/>");
-			$('#result').append(" <BR/>");
-			$(pInstance.nodes).each(function(index, element) {
-				if (element.name != "EmbeddedStart" && element.name != "EmbeddedEnd" && element.name != "Script") {
-					$('#result').append($.formatDate(element.enter) + " " + element.name + " <BR/>");
-				}
-			});
+			if (typeof pInstance === "undefined") {
+				setTimeout(
+					function() 
+					{
+						find();
+					}, 2000);
+			} else {
+				$('#result').text("Workflow " + pInstance.processName + " (id=" + pInstance.id + ")");
+				$('#result').append(" <BR/>");
+				$('#result').append("Status " + pInstance.state + " <BR/>");
+				$('#result').append(" <BR/>");
+				$(pInstance.nodes).each(function(index, element) {
+					if (element.name != "EmbeddedStart" && element.name != "EmbeddedEnd" && element.name != "Script") {
+						$('#result').append($.formatDate(element.enter) + " " + element.name + " <BR/>");
+					}
+				});
+			}
 		},
 		error: function (jqXHR, exception) {
 			var msg = '';
