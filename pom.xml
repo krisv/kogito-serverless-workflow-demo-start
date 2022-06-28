@@ -13,7 +13,7 @@
     <project.reporting.outputEncoding>UTF-8</project.reporting.outputEncoding>
     <quarkus.platform.artifact-id>quarkus-bom</quarkus.platform.artifact-id>
     <quarkus.platform.group-id>io.quarkus.platform</quarkus.platform.group-id>
-    <quarkus.platform.version>2.9.2.Final</quarkus.platform.version>
+    <quarkus.platform.version>2.10.0.Final</quarkus.platform.version>
     <surefire-plugin.version>3.0.0-M5</surefire-plugin.version>
     <version.io.quarkiverse.openapi.generator>0.7.0</version.io.quarkiverse.openapi.generator>
   </properties>
@@ -42,13 +42,13 @@
         <type>pom</type>
         <scope>import</scope>
       </dependency>
-      <dependency>
+      <!--dependency>
         <groupId>org.kie.kogito</groupId>
         <artifactId>kogito-bom</artifactId>
         <version>1.22.1.Final</version>
         <type>pom</type>
         <scope>import</scope>
-      </dependency>
+      </dependency-->
       <dependency>
         <groupId>${quarkus.platform.group-id}</groupId>
         <artifactId>quarkus-kogito-bom</artifactId>
