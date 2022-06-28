@@ -1,70 +1,70 @@
 {
-   "id": "PlayToWin_ServerlessWorkflow",
-   "version": "1.0",
-   "name": "Play to win",
-   "description": "",
-   "expressionLang": "jsonpath",
-   "start": "NewEntry",
-   "events": [
-     {
-       "name": "NewEntryEvent",
-       "source": "participants",
-       "type": "participants"
-     },
-     {
-       "name": "PrizeWonEvent",
-       "source": "prizes",
-       "type": "prizes"
-     }
-   ],
-   "functions": [
-     {
-       "name": "isWinnerFunction",
-       "operation": "https://raw.githubusercontent.com/krisv/kogito-serverless-workflow-demo/master/kogito-demo-process/src/main/resources/score.yaml#isWinner"
-     },
-     {
-       "name": "getEmployeeDetailsFunction",
-       "operation": "https://raw.githubusercontent.com/krisv/kogito-serverless-workflow-demo/master/kogito-demo-process/src/main/resources/employee.yaml#getEmployeeDetails"
-     }
-   ],
-   "states": [
-     {
-       "name": "NewEntry",
-       "type": "event",
-       "onEvents": [
-         {
-           "eventRefs": ["NewEntryEvent"],
-           "actions": []
-         }
-       ],
-       "transition": "CheckWinner"
-     },
-     {
-       "name": "CheckWinner",
-       "type": "operation",
-       "actionMode": "sequential",
-       "actions": [
-         {
-           "name": "isWinner",
-           "functionRef": {
-             "refName": "isWinnerFunction",
-             "arguments": {
-             }
-           }
-         }
-       ],
-       "transition": "hasWon"
+  "id": "PlayToWin_ServerlessWorkflow",
+  "version": "1.0",
+  "name": "Play to win",
+  "description": "",
+  "specVersion": "0.8",
+  "start": "NewEntry",
+  "events": [
+    {
+      "name": "NewEntryEvent",
+      "source": "participants",
+      "type": "participants"
+    },
+    {
+      "name": "PrizeWonEvent",
+      "source": "prizes",
+      "type": "prizes"
+    }
+  ],
+  "functions": [
+    {
+      "name": "isWinnerFunction",
+      "operation": "https://raw.githubusercontent.com/krisv/kogito-serverless-workflow-demo/master/kogito-demo-process/src/main/resources/score.yaml#isWinner"
+    },
+    {
+      "name": "getEmployeeDetailsFunction",
+      "operation": "https://raw.githubusercontent.com/krisv/kogito-serverless-workflow-demo/master/kogito-demo-process/src/main/resources/employee.yaml#getEmployeeDetails"
+    }
+  ],
+  "states": [
+    {
+      "name": "NewEntry",
+      "type": "event",
+      "onEvents": [
+        {
+          "eventRefs": ["NewEntryEvent"],
+          "actions": []
+        }
+      ],
+      "transition": "CheckWinner"
+    },
+    {
+      "name": "CheckWinner",
+      "type": "operation",
+      "actionMode": "sequential",
+      "actions": [
+        {
+          "name": "isWinner",
+          "functionRef": {
+            "refName": "isWinnerFunction",
+            "arguments": {
+            }
+          }
+        }
+      ],
+      "transition": "hasWon"
      },
      {
        "name": "hasWon",
        "type": "switch",
        "dataConditions": [
          {
-           "condition": "{{ $.[?(@.result == true)] }}",
+           "condition": ".result == true",
            "transition": "GetEmployeeDetails"
          },
          {
-           "condition": "{{ $.[?(@.result != true)] }}",
+           "condition": ".result != true",
            "end": true
          }
        ]
@@ -79,7 +79,7 @@
            "functionRef": {
              "refName": "getEmployeeDetailsFunction",
              "arguments": {
-               "name": "$.username"
+               "name": ".username"
              }
            }
          }
@@ -100,5 +100,5 @@
          ]
        }
      }
-   ]
- }
+  ]
+}
